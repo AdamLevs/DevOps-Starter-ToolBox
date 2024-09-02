@@ -5,20 +5,27 @@ This repository contains installation instructions for various DevOps tools and 
 ## Table of Contents
 
 1. [Nginx](#nginx)
-2. [Jenkins](#jenkins)
-3. [Cloudflare](#cloudflare)
-4. [Webmin](#webmin)
-5. [MySQL](#mysql)
-6. [Prometheus and Grafana](#prometheus-and-grafana)
-7. [Docker](#docker)
-8. [Kubernetes (K8s), Kind, and Minikube](#kubernetes-k8s-kind-and-minikube)
+2. [Ansible](#Ansible)
+3. [Jenkins](#jenkins)
+4. [Cloudflare](#cloudflare)
+5. [Webmin](#webmin)
+6. [MySQL](#mysql)
+7. [Prometheus and Grafana](#prometheus-and-grafana)
+8. [Docker](#docker)
+9. [Kubernetes (K8s), Kind, and Minikube](#kubernetes-k8s-kind-and-minikube)
 
 ## Installation Instructions
 
 ### Nginx
 
 ```bash
-sudo apt install nginx
+sudo apt install nginx -y
+```
+
+### Ansible
+
+```bash
+sudo apt install ansible -y
 ```
 
 ### Jenkins
@@ -27,7 +34,7 @@ sudo apt install nginx
 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 sudo apt-get update
-sudo apt-get install jenkins
+sudo apt-get install jenkins -y
 ```
 
 ### Cloudflare
@@ -43,14 +50,14 @@ sudo cloudflared service install eyJhIjoiMzI3ZTEzYzMxNzQ2MmQ0MGVjZmM5NWE0ZDI2YTB
 ```bash
 curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
 sudo sh setup-repos.sh
-sudo apt-get install webmin --install-recommends
+sudo apt-get install webmin --install-recommends -y
 ```
 
 ### MySQL
 
 ```bash
 sudo apt update
-sudo apt install mysql-server
+sudo apt install mysql-server -y
 ```
 
 ### Prometheus and Grafana
@@ -74,7 +81,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 sudo groupadd docker
 sudo usermod -aG docker $USER
