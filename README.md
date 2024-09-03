@@ -2,6 +2,18 @@
 
 This repository contains installation instructions for various DevOps tools and services commonly used in modern software development and infrastructure management.
 
+## Auto installation
+
+if you want to make all the proccess by one command, copy/paste the ToolBox.sh or clone and run:
+give the script the right premmissision:
+```bash
+chmod +x ToolBox.sh
+```
+run the script: 
+```bash
+sudo ./runsecure.sh
+```
+
 ## Table of Contents
 
 1. [Nginx](#nginx)
