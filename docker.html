@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DockerPuller</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Lora', serif;
+            color: #fff;
+            background: url('images/tech.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+        }
+
+        body {
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .container {
+            width: calc(100% - 300px);
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+            margin-right: 300px; /* space for the side panel */
+        }
+
+        .side-panel {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+            box-shadow: -5px 0 10px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-panel h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #f39c12;
+        }
+
+        .side-panel input, .side-panel button {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #f39c12;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .side-panel input {
+            width: calc(100% - 22px); /* Adjust width to fit inside the panel */
+        }
+
+        .side-panel button {
+            cursor: pointer;
+            background-color: #f39c12;
+            color: #fff;
+        }
+
+        .side-panel button:hover {
+            background-color: #e67e22;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #f39c12;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .service-list {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            max-height: 600px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .service {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            max-height: 35px;
+            overflow: hidden;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .service.open {
+            max-height: 200px; /* Increased height to show more details */
+            opacity: 1;
+        }
+
+        .service h2 {
+            font-size: 1em;
+            margin: 0;
+            color: #f39c12;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .service .details {
+            display: none;
+        }
+
+        .service.open .details {
+            display: block;
+        }
+
+        .service pre {
+            background-color: #333;
+            padding: 5px;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin: 5px 0;
+            white-space: pre-wrap;
+        }
+
+        .service a {
+            color: #f39c12;
+            text-decoration: none;
+        }
+
+        .service a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>DockerPuller</h1>
+        <p>Explore the Docker containers we are using, each running on a unique port.</p>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search-bar" class="search-bar" placeholder="Search containers..." onkeyup="filterServices()">
+        </div>
+
+        <div class="service-list" id="service-list">
+            <!-- Docker Containers -->
+            <div class="service" data-name="nginx" onclick="toggleService(this)">
+                <h2>Nginx</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull nginx:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-nginx -p 4000:80 -d nginx</pre>
+                    <p>Access: <a href="http://localhost:4000" target="_blank">http://localhost:4000</a></p>
+                </div>
+            </div>
+
+            <div class="service" data-name="mysql" onclick="toggleService(this)">
+                <h2>MySQL</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull mysql:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql</pre>
+                    <p>Access: <a href="http://localhost:3306" target="_blank">http://localhost:3306</a></p>
+                </div>
+            </div>
+
+            <div class="service" data-name="redis" onclick="toggleService(this)">
+                <h2>Redis</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull redis:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-redis -p 6379:6379 -d redis</pre>
+                    <p>Access: <a href="http://localhost:6379" target="_blank">http://localhost:6379</a></p>
+                </div>
+            </div>
+
+            <div class="service" data-name="mongo" onclick="toggleService(this)">
+                <h2>MongoDB</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull mongo:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-mongo -p 27017:27017 -d mongo</pre>
+                    <p>Access: <a href="http://localhost:27017" target="_blank">http://localhost:27017</a></p>
+                </div>
+            </div>
+
+            <div class="service" data-name="jenkins" onclick="toggleService(this)">
+                <h2>Jenkins</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull jenkins/jenkins:lts</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-jenkins -p 8080:8080 -d jenkins/jenkins:lts</pre>
+                    <p>Access: <a href="http://localhost:8080" target="_blank">http://localhost:8080</a></p>
+                </div>
+            </div>
+
+            <div class="service" data-name="aws-cli" onclick="toggleService(this)">
+                <h2>AWS CLI</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull amazon/aws-cli:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-aws-cli -it amazon/aws-cli</pre>
+                </div>
+            </div>
+
+            <div class="service" data-name="git" onclick="toggleService(this)">
+                <h2>Git</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull alpine/git:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-git -it alpine/git</pre>
+                </div>
+            </div>
+
+            <div class="service" data-name="python" onclick="toggleService(this)">
+                <h2>Python</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull python:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-python -it python</pre>
+                </div>
+            </div>
+
+            <div class="service" data-name="postgres" onclick="toggleService(this)">
+                <h2>PostgreSQL</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull postgres:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres</pre>
+                    <p>Access: <a href="http://localhost:5432" target="_blank">http://localhost:5432</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Side Panel for Adding New Containers -->
+    <div class="side-panel">
+        <h2>Add New Container</h2>
+        <input type="text" id="container-image" placeholder="Container Image (e.g., nginx)">
+        <input type="text" id="port-number" placeholder="Port Number">
+        <button onclick="addContainer()">Add Container</button>
+    </div>
+
+    <script>
+        // Function to toggle the details of each service
+        function toggleService(element) {
+            element.classList.toggle('open');
+        }
+
+        // Function to filter services based on the search input
+        function filterServices() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const services = document.querySelectorAll('.service');
+
+            services.forEach(service => {
+                const name = service.getAttribute('data-name').toLowerCase();
+                if (name.includes(searchTerm)) {
+                    service.style.display = 'block';
+                } else {
+                    service.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to add a new container
+        function addContainer() {
+            const containerImage = document.getElementById('container-image').value;
+            const portNumber = document.getElementById('port-number').value;
+
+            if (!containerImage || !portNumber) {
+                alert('Please enter both container image and port number.');
+                return;
+            }
+
+            const containerList = document.getElementById('service-list');
+
+            const containerElement = document.createElement('div');
+            containerElement.className = 'service';
+            containerElement.setAttribute('data-name', containerImage);
+            containerElement.onclick = function() { toggleService(this); };
+
+            containerElement.innerHTML = `
+                <h2>${containerImage}</h2>
+                <div class="details">
+                    <p>Pull Command:</p>
+                    <pre>docker pull ${containerImage}:latest</pre>
+                    <p>Run Command:</p>
+                    <pre>docker run --name my-${containerImage} -p ${portNumber}:80 -d ${containerImage}</pre>
+                    <p>Access: <a href="http://localhost:${portNumber}" target="_blank">http://localhost:${portNumber}</a></p>
+                </div>
+            `;
+
+            containerList.appendChild(containerElement);
+
+            // Clear inputs after adding the container
+            document.getElementById('container-image').value = '';
+            document.getElementById('port-number').value = '';
+        }
+    </script>
+</body>
+</html>
