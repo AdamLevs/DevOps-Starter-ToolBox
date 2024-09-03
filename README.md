@@ -13,6 +13,7 @@ This repository contains installation instructions for various DevOps tools and 
 7. [Prometheus and Grafana](#prometheus-and-grafana)
 8. [Docker](#docker)
 9. [Kubernetes (K8s), Kind, and Minikube](#kubernetes-k8s-kind-and-minikube)
+10. [Terraform](#Terraform)
 
 ## Installation Instructions
 
@@ -91,6 +92,22 @@ newgrp docker
 
 # Verify installation
 docker ps
+```
+
+### Terraform
+```bash
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+gpg --dearmor | \
+sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+gpg --no-default-keyring \
+--keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+--fingerprint
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update
+sudo apt-get install terraform
 ```
 
 ### Kubernetes (K8s), Kind, and Minikube
