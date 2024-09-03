@@ -5,6 +5,7 @@ This repository contains installation instructions for various DevOps tools and 
 ## Auto installation
 
 if you want to make all the proccess by one command, copy/paste the ToolBox.sh or clone and run:
+
 give the script the right premmissision:
 ```bash
 chmod +x ToolBox.sh
