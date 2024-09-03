@@ -12,8 +12,8 @@ This repository contains installation instructions for various DevOps tools and 
 6. [MySQL](#mysql)
 7. [Prometheus and Grafana](#prometheus-and-grafana)
 8. [Docker](#docker)
-9. [Kubernetes (K8s), Kind, and Minikube](#kubernetes-k8s-kind-and-minikube)
-10. [Terraform](#Terraform)
+9. [Terraform](#Terraform)
+10. [Kubernetes (K8s), Kind, and Minikube](#kubernetes-k8s-kind-and-minikube)
 
 ## Installation Instructions
 
