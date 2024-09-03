@@ -11,7 +11,7 @@ chmod +x ToolBox.sh
 ```
 run the script: 
 ```bash
-sudo ./runsecure.sh
+sudo ./ToolBox.sh
 ```
 
 ## Table of Contents
