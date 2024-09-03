@@ -44,7 +44,7 @@ sudo apt-get install jenkins -y
 ```bash
 curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 sudo dpkg -i cloudflared.deb
-sudo cloudflared service install eyJhIjoiMzI3ZTEzYzMxNzQ2MmQ0MGVjZmM5NWE0ZDI2YTBjMTQiLCJ0IjoiNzY4ZGE4ZmEtZTJhOC00ODhiLWE2MzctMzljZjdlOTQwMzM4IiwicyI6IllUazRObVprWkdJdFpqQXpNUzAwWTJGakxXRTFOekl0WW1NeE9EVTRPV1ZqWldWaSJ9
+sudo cloudflared service install <your own connector>
 ```
 
 ### Webmin
